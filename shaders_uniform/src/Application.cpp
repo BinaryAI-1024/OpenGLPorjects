@@ -35,14 +35,13 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
+    //  ！！！创建并编译着色器程序
     Shader ourShader("shader.vs", "shader.fs");
 
     float vertices[] = {
-        // positions
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-         0.0f,  0.5f, 0.0f   // top 
+         0.5f, -0.5f, 0.0f,  
+        -0.5f, -0.5f, 0.0f,  
+         0.0f,  0.5f, 0.0f   
     };
 
     unsigned int VBO, VAO;
@@ -64,7 +63,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         ourShader.use();
-        // 设置uniform颜色为绿色
+        // ! ! ! 设置uniform颜色为绿色
         ourShader.setVec4("ourColor", 0.0f, 1.0f, 0.0f, 1.0f);
 
         glBindVertexArray(VAO);
