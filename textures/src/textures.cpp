@@ -1,7 +1,7 @@
 #include <glad/glad.h>  
 #include <GLFW/glfw3.h>
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"  // °üº¬ STB Í¼Ïñ¼ÓÔØ¿â£¬ÓÃÓÚ¼ÓÔØÎÆÀíÍ¼Ïñ
+#include "stb_image.h"  // åŒ…å« STB å›¾åƒåŠ è½½åº“ï¼Œç”¨äºåŠ è½½çº¹ç†å›¾åƒ
 #include <filesystem.h> 
 #include <shader_s.h>   
 #include <iostream>     
@@ -27,7 +27,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    // ´´½¨ GLFW ´°¿Ú
+    // åˆ›å»º GLFW çª—å£
     GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL); 
     if (window == NULL)
     {
@@ -38,63 +38,64 @@ int main()
     glfwMakeContextCurrent(window); 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    // ³õÊ¼»¯ GLAD
+    // åˆå§‹åŒ– GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
     {
         std::cout << "Failed to initialize GLAD" << std::endl; 
         return -1;
     }
 
-    Shader ourShader("texture.vs", "texture.fs"); // ´´½¨×ÅÉ«Æ÷¶ÔÏó
+    Shader ourShader("texture.vs", "texture.fs"); // åˆ›å»ºç€è‰²å™¨å¯¹è±¡
 
-    // ÉèÖÃ¶¥µãÊı¾İ£¨ºÍ»º³åÇø£©²¢ÅäÖÃ¶¥µãÊôĞÔ
+    // è®¾ç½®é¡¶ç‚¹æ•°æ®ï¼ˆå’Œç¼“å†²åŒºï¼‰å¹¶é…ç½®é¡¶ç‚¹å±æ€§
     //float vertices[] = {
-    //    // Î»ÖÃ×ø±ê          // ÑÕÉ«           // ÎÆÀí×ø±ê
-    //     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f, // ÓÒÉÏ½Ç
-    //     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, -1.0f, // ÓÒÏÂ½Ç
-    //    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   -1.0f, -1.0f, // ×óÏÂ½Ç
-    //    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   -1.0f, 2.0f  // ×óÉÏ½Ç 
+    //    // ä½ç½®åæ ‡          // é¢œè‰²           // çº¹ç†åæ ‡
+    //     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f, // å³ä¸Šè§’
+    //     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, -1.0f, // å³ä¸‹è§’
+    //    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   -1.0f, -1.0f, // å·¦ä¸‹è§’
+    //    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   -1.0f, 2.0f  // å·¦ä¸Šè§’ 
     //};
+    // OpenGLè¦æ±‚yè½´0.0åæ ‡æ˜¯åœ¨å›¾ç‰‡çš„åº•éƒ¨çš„ï¼Œä½†æ˜¯å›¾ç‰‡çš„yè½´0.0åæ ‡é€šå¸¸åœ¨é¡¶éƒ¨
     float vertices[] = {
-        // Î»ÖÃ×ø±ê          // ÑÕÉ«           // ÎÆÀí×ø±ê£¨·­×ªyÖá£©
-         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f, // ÓÒÉÏ½Ç
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f, // ÓÒÏÂ½Ç
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f, // ×óÏÂ½Ç
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f  // ×óÉÏ½Ç 
+        // ä½ç½®åæ ‡          // é¢œè‰²           // çº¹ç†åæ ‡ï¼ˆç¿»è½¬yè½´ï¼‰
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f, // å³ä¸Šè§’
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f, // å³ä¸‹è§’
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f, // å·¦ä¸‹è§’
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f  // å·¦ä¸Šè§’ 
     };
     unsigned int indices[] = {
-        0, 1, 3, // µÚÒ»¸öÈı½ÇĞÎ
-        1, 2, 3  // µÚ¶ş¸öÈı½ÇĞÎ
+        0, 1, 3, // ç¬¬ä¸€ä¸ªä¸‰è§’å½¢
+        1, 2, 3  // ç¬¬äºŒä¸ªä¸‰è§’å½¢
     };
-    // ¶¨Òå¶¥µã»º³å¶ÔÏó¡¢¶¥µãÊı×é¶ÔÏóºÍÔªËØ»º³å¶ÔÏó
+    // å®šä¹‰é¡¶ç‚¹ç¼“å†²å¯¹è±¡ã€é¡¶ç‚¹æ•°ç»„å¯¹è±¡å’Œå…ƒç´ ç¼“å†²å¯¹è±¡
     unsigned int VBO, VAO, EBO; 
-    glGenVertexArrays(1, &VAO); // Éú³É¶¥µãÊı×é¶ÔÏó
-    glGenBuffers(1, &VBO);     // Éú³É¶¥µã»º³å¶ÔÏó
-    glGenBuffers(1, &EBO);     // Éú³ÉÔªËØ»º³å¶ÔÏó
+    glGenVertexArrays(1, &VAO); // ç”Ÿæˆé¡¶ç‚¹æ•°ç»„å¯¹è±¡
+    glGenBuffers(1, &VBO);     // ç”Ÿæˆé¡¶ç‚¹ç¼“å†²å¯¹è±¡
+    glGenBuffers(1, &EBO);     // ç”Ÿæˆå…ƒç´ ç¼“å†²å¯¹è±¡
 
-    glBindVertexArray(VAO); // °ó¶¨¶¥µãÊı×é¶ÔÏó
+    glBindVertexArray(VAO); // ç»‘å®šé¡¶ç‚¹æ•°ç»„å¯¹è±¡
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); // °ó¶¨¶¥µã»º³å¶ÔÏó
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // ½«¶¥µãÊı¾İ¸´ÖÆµ½»º³åÇø
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // ç»‘å®šé¡¶ç‚¹ç¼“å†²å¯¹è±¡
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // å°†é¡¶ç‚¹æ•°æ®å¤åˆ¶åˆ°ç¼“å†²åŒº
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); // °ó¶¨ÔªËØ»º³å¶ÔÏó
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // ½«Ë÷ÒıÊı¾İ¸´ÖÆµ½»º³åÇø
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); // ç»‘å®šå…ƒç´ ç¼“å†²å¯¹è±¡
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // å°†ç´¢å¼•æ•°æ®å¤åˆ¶åˆ°ç¼“å†²åŒº
 
-    // ÉèÖÃ¶¥µãÊôĞÔÖ¸Õë:xyz(¶¥µã×ø±ê)rgb£¨¶¥µãÑÕÉ«£©st£¨ÎÆÀí×ø±ê£©
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // ÉèÖÃÎ»ÖÃÊôĞÔÖ¸Õë
-    glEnableVertexAttribArray(0); // ÆôÓÃÎ»ÖÃÊôĞÔ
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); // ÉèÖÃÑÕÉ«ÊôĞÔÖ¸Õë
-    glEnableVertexAttribArray(1); // ÆôÓÃÑÕÉ«ÊôĞÔ
-    // ÎÆÀí×ø±êÊôĞÔ
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // ÉèÖÃÎÆÀí×ø±êÊôĞÔÖ¸Õë
-    glEnableVertexAttribArray(2); // ÆôÓÃÎÆÀí×ø±êÊôĞÔ
+    // è®¾ç½®é¡¶ç‚¹å±æ€§æŒ‡é’ˆ:xyz(é¡¶ç‚¹åæ ‡)rgbï¼ˆé¡¶ç‚¹é¢œè‰²ï¼‰stï¼ˆçº¹ç†åæ ‡ï¼‰
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // è®¾ç½®ä½ç½®å±æ€§æŒ‡é’ˆ
+    glEnableVertexAttribArray(0); // å¯ç”¨ä½ç½®å±æ€§
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); // è®¾ç½®é¢œè‰²å±æ€§æŒ‡é’ˆ
+    glEnableVertexAttribArray(1); // å¯ç”¨é¢œè‰²å±æ€§
+    // çº¹ç†åæ ‡å±æ€§
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // è®¾ç½®çº¹ç†åæ ‡å±æ€§æŒ‡é’ˆ
+    glEnableVertexAttribArray(2); // å¯ç”¨çº¹ç†åæ ‡å±æ€§
 
 
-    // ¼ÓÔØ²¢´´½¨ÎÆÀí
-    unsigned int texture; // ¶¨ÒåÎÆÀí¶ÔÏó
-    glGenTextures(1, &texture); // Éú³ÉÎÆÀí¶ÔÏó
-    glBindTexture(GL_TEXTURE_2D, texture); // °ó¶¨ÎÆÀí¶ÔÏó£¬ËùÓĞ GL_TEXTURE_2D ²Ù×÷¶Ô¸ÃÎÆÀíÉúĞ§
-    //  ÉèÖÃ S ÖáºÍTÖáµÄÎÆÀí»·ÈÆ·½Ê½
+    // åŠ è½½å¹¶åˆ›å»ºçº¹ç†
+    unsigned int texture; // å®šä¹‰çº¹ç†å¯¹è±¡
+    glGenTextures(1, &texture); // ç”Ÿæˆçº¹ç†å¯¹è±¡
+    glBindTexture(GL_TEXTURE_2D, texture); // ç»‘å®šçº¹ç†å¯¹è±¡ï¼Œæ‰€æœ‰ GL_TEXTURE_2D æ“ä½œå¯¹è¯¥çº¹ç†ç”Ÿæ•ˆ
+    //  è®¾ç½® S è½´å’ŒTè½´çš„çº¹ç†ç¯ç»•æ–¹å¼
     if (WRAP_TYPE == 1) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -108,16 +109,16 @@ int main()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
     else if (WRAP_TYPE == 4) {
-         // Èç¹ûÑ¡ÔñGL_CLAMP_TO_BORDERÎÆÀí»·ÈÆ£¬ĞèÒªÉèÖÃ±ßÔµÑÕÉ«
-        float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f }; // ºìÉ«
+         // å¦‚æœé€‰æ‹©GL_CLAMP_TO_BORDERçº¹ç†ç¯ç»•ï¼Œéœ€è¦è®¾ç½®è¾¹ç¼˜é¢œè‰²
+        float borderColor[] = { 1.0f, 0.0f, 0.0f, 1.0f }; // çº¢è‰²
         glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     }
 
     if (FILTER_TYPE == 1) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // ÉèÖÃÎÆÀíËõĞ¡¹ıÂË·½Ê½
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // ÉèÖÃÎÆÀí·Å´ó¹ıÂË·½Ê½
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // è®¾ç½®çº¹ç†ç¼©å°è¿‡æ»¤æ–¹å¼
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // è®¾ç½®çº¹ç†æ”¾å¤§è¿‡æ»¤æ–¹å¼
     }
     else if (FILTER_TYPE == 2) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); 
@@ -139,39 +140,39 @@ int main()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
-    // ¼ÓÔØÍ¼Ïñ£¬´´½¨ÎÆÀí²¢Éú³É Mipmap
-    int width, height, nrChannels; // ¶¨ÒåÍ¼Ïñ¿í¶È¡¢¸ß¶ÈºÍÍ¨µÀÊı
+    // åŠ è½½å›¾åƒï¼Œåˆ›å»ºçº¹ç†å¹¶ç”Ÿæˆ Mipmap
+    int width, height, nrChannels; // å®šä¹‰å›¾åƒå®½åº¦ã€é«˜åº¦å’Œé€šé“æ•°
     std::string imagePath = FileSystem::getPath("resources/grid2.jpg");
     std::cout << "Attempting to load texture from: " << imagePath << std::endl; 
-    unsigned char* data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0); // ¼ÓÔØÍ¼ÏñÊı¾İ
+    unsigned char* data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0); // åŠ è½½å›¾åƒæ•°æ®
     if (data)
     {
-        // ½«Í¼ÏñÊı¾İÉÏ´«µ½ÎÆÀí
+        // å°†å›¾åƒæ•°æ®ä¸Šä¼ åˆ°çº¹ç†
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data); 
-        glGenerateMipmap(GL_TEXTURE_2D); // Éú³É Mipmap
+        glGenerateMipmap(GL_TEXTURE_2D); // ç”Ÿæˆ Mipmap
     }
     else
     {
         std::cout << "Failed to load texture" << std::endl; 
     }
-    stbi_image_free(data); // ÊÍ·ÅÍ¼ÏñÊı¾İ
+    stbi_image_free(data); // é‡Šæ”¾å›¾åƒæ•°æ®
 
-    // äÖÈ¾Ñ­»·
+    // æ¸²æŸ“å¾ªç¯
     while (!glfwWindowShouldClose(window)) 
     {
         processInput(window); 
 
-        // äÖÈ¾
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // ÉèÖÃÇåÆÁÑÕÉ«
-        glClear(GL_COLOR_BUFFER_BIT); // Çå¿ÕÑÕÉ«»º³å
+        // æ¸²æŸ“
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // è®¾ç½®æ¸…å±é¢œè‰²
+        glClear(GL_COLOR_BUFFER_BIT); // æ¸…ç©ºé¢œè‰²ç¼“å†²
 
-        // °ó¶¨ÎÆÀí¶ÔÏó
+        // ç»‘å®šçº¹ç†å¯¹è±¡
         glBindTexture(GL_TEXTURE_2D, texture); 
 
-        // äÖÈ¾ÈİÆ÷
-        ourShader.use(); // Ê¹ÓÃ×ÅÉ«Æ÷³ÌĞò
-        glBindVertexArray(VAO); // °ó¶¨¶¥µãÊı×é¶ÔÏó
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // »æÖÆÈı½ÇĞÎ
+        // æ¸²æŸ“å®¹å™¨
+        ourShader.use(); // ä½¿ç”¨ç€è‰²å™¨ç¨‹åº
+        glBindVertexArray(VAO); // ç»‘å®šé¡¶ç‚¹æ•°ç»„å¯¹è±¡
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0); // ç»˜åˆ¶ä¸‰è§’å½¢
 
         glfwSwapBuffers(window);
         glfwPollEvents();
