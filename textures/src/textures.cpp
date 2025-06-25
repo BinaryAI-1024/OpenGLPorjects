@@ -166,7 +166,7 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f); // 设置清屏颜色
         glClear(GL_COLOR_BUFFER_BIT); // 清空颜色缓冲
 
-        // 绑定纹理对象
+        // 绑定纹理对象  在调用glDrawElements之前绑定纹理，它会自动把纹理赋值给片段着色器的采样器sampler2D
         glBindTexture(GL_TEXTURE_2D, texture); 
 
         // 渲染容器
