@@ -169,9 +169,10 @@ int main()
         // 3. 应用旋转变换（绕z轴旋转，旋转角度基于当前时间）
         // glfwGetTime()返回程序运行时间（秒）
         transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-
+        // 4. 图形每个轴都缩放为0.5倍
+        transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
         // 矩阵变换的执行顺序是反向的：
-        // 实际效果是：物体先旋转，然后旋转后的坐标系再平移
+        // 实际效果是：物体先缩小，再旋转，最后平移
 
 
         // 使用着色器程序并设置变换矩阵uniform
